@@ -15,12 +15,17 @@ class AppButton extends StatelessWidget {
     this.compact = false,
     this.expand = false,
     this.busy = false,
+    this.onActive = false,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final IconData? icon;
   final ButtonKind kind;
+
+  /// Posé sur une tuile ambrée : les couleurs s'inversent pour rester lisibles dans les
+  /// deux thèmes (en thème sombre, l'ambre de la tuile est aussi la couleur d'accent).
+  final bool onActive;
   final bool compact;
 
   /// Occupe toute la largeur disponible.
@@ -34,7 +39,13 @@ class AppButton extends StatelessWidget {
     final c = context.colors;
     final enabled = onPressed != null && !busy;
     final primary = kind == ButtonKind.primary;
-    final fg = primary ? c.onAccent : c.text;
+    final fg = onActive ? (primary ? c.active : c.onActive) : (primary ? c.onAccent : c.text);
+    final background = onActive
+        ? (primary ? c.onActive : c.onActive.withValues(alpha: 0))
+        : (primary ? c.accent : c.surface);
+    final border = onActive
+        ? (primary ? BorderSide.none : BorderSide(color: c.onActive.withValues(alpha: 0.35)))
+        : (primary ? BorderSide.none : BorderSide(color: c.border));
     final text = Text(
       label,
       maxLines: 1,
@@ -47,11 +58,8 @@ class AppButton extends StatelessWidget {
     return Opacity(
       opacity: onPressed == null && !busy ? 0.45 : 1,
       child: Material(
-        color: primary ? c.accent : c.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(Dim.buttonRadius),
-          side: primary ? BorderSide.none : BorderSide(color: c.border),
-        ),
+        color: background,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dim.buttonRadius), side: border),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: enabled ? onPressed : null,

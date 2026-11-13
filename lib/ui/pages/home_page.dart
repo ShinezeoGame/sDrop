@@ -258,12 +258,18 @@ class _RequestTileState extends State<_RequestTile> {
           Row(
             children: [
               Expanded(
-                child: AppButton(label: 'Refuser', expand: true, onPressed: () => controller.refuse(widget.request)),
+                child: AppButton(
+                  label: 'Refuser',
+                  onActive: true,
+                  expand: true,
+                  onPressed: () => controller.refuse(widget.request),
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: AppButton(
                   label: 'Accepter',
+                  onActive: true,
                   kind: ButtonKind.primary,
                   expand: true,
                   onPressed: () => controller.accept(widget.request, always: _always),
