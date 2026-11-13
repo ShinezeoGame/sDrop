@@ -181,6 +181,7 @@ class DropController extends ChangeNotifier implements DropReceiver {
     } on Object catch (error) {
       _startError = 'sDrop ne peut pas se mettre à l\'écoute du réseau : $error';
     }
+    await _checkDirectory();
     _housekeeping = Timer.periodic(const Duration(seconds: 2), (_) => _tick());
     unawaited(_refreshAddresses());
     unawaited(_restoreManualPeers());
@@ -400,12 +401,30 @@ class DropController extends ChangeNotifier implements DropReceiver {
     if (!request._decision.isCompleted) request._decision.complete(false);
   }
 
-  @override
-  Future<Directory> directory() async =>
-      _settings.downloadPath.isEmpty ? _defaultDirectory() : Directory(_settings.downloadPath);
+  /// Dossier de repli, si « Téléchargements » s'avère inaccessible sur ce téléphone.
+  String? _fallbackPath;
+
+  /// Vérifie, sur Android, qu'on peut bien écrire dans « Téléchargements » ; sinon les
+  /// fichiers iront dans le dossier propre à l'application.
+  Future<void> _checkDirectory() async {
+    if (!Platform.isAndroid) return;
+    try {
+      final directory = _defaultDirectory();
+      await directory.create(recursive: true);
+      final probe = File('${directory.path}/.sdrop-essai');
+      await probe.writeAsString('ok');
+      await probe.delete();
+    } on Object {
+      _fallbackPath = await bridge.fallbackDirectory();
+    }
+  }
 
   /// Dossier de réception, pour l'affichage.
-  String get downloadPath => _settings.downloadPath.isEmpty ? _defaultDirectory().path : _settings.downloadPath;
+  String get downloadPath =>
+      _settings.downloadPath.isNotEmpty ? _settings.downloadPath : (_fallbackPath ?? _defaultDirectory().path);
+
+  @override
+  Future<Directory> directory() async => Directory(downloadPath);
 
   Transfer? _transfer(String id) {
     for (final transfer in _transfers) {

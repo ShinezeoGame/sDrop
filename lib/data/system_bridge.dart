@@ -52,6 +52,16 @@ class SystemBridge {
     }
   }
 
+  /// Dossier propre à l'application, utilisé si « Téléchargements » n'est pas accessible.
+  Future<String?> fallbackDirectory() async {
+    if (!_android) return null;
+    try {
+      return await _channel.invokeMethod<String>('dossierDeSecours');
+    } on Object {
+      return null;
+    }
+  }
+
   /// Contenu partagé qui a ouvert l'application, s'il y en a un.
   Future<SharedContent> initialShare() async {
     if (!_android) return const SharedContent();

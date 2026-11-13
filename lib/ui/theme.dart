@@ -46,7 +46,7 @@ class AppColors {
   /// Fond des messages d'information.
   final Color accentSoft;
 
-  /// Fond de la tuile d'un téléphone dont l'écran est affiché, et texte posé dessus.
+  /// Fond d'une tuile mise en avant (demande d'envoi reçue), et texte posé dessus.
   final Color active;
   final Color onActive;
 
@@ -106,8 +106,7 @@ class AppText {
       body = _style(15, FontWeight.w400, c.text, height: 1.4),
       secondary = _style(14, FontWeight.w400, c.textMuted, height: 1.35),
       caption = _style(12.5, FontWeight.w500, c.textMuted, height: 1.25),
-      button = _style(15, FontWeight.w600, c.text, height: 1.2),
-      key = _style(12.5, FontWeight.w600, c.text, height: 1.1);
+      button = _style(15, FontWeight.w600, c.text, height: 1.2);
 
   /// Titre de page.
   final TextStyle pageTitle;
@@ -115,7 +114,7 @@ class AppText {
   /// Titre de section.
   final TextStyle sectionTitle;
 
-  /// Nom d'un téléphone ou d'un réglage.
+  /// Nom d'un appareil ou d'un réglage.
   final TextStyle itemTitle;
   final TextStyle body;
 
@@ -124,8 +123,6 @@ class AppText {
   final TextStyle caption;
   final TextStyle button;
 
-  /// Nom d'une touche du clavier.
-  final TextStyle key;
 
   static final light = AppText._(AppColors.light);
   static final dark = AppText._(AppColors.dark);

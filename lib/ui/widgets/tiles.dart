@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme.dart';
 
 /// Surface de base de l'interface : fond uni, bord fin, coins arrondis.
-/// Devient ambrée quand [active] est vrai (écran du téléphone affiché).
+/// Devient ambrée quand [active] est vrai (demande d'envoi à traiter).
 class Tile extends StatelessWidget {
   const Tile({
     super.key,
@@ -306,52 +306,6 @@ class StepList extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-/// Un raccourci : les touches (ou le geste de souris) à gauche, l'effet à droite.
-class ShortcutRow extends StatelessWidget {
-  const ShortcutRow({super.key, required this.keys, required this.effect});
-
-  /// Touches à enfoncer ensemble (« Alt », « S »), ou un geste (« Clic droit »).
-  final List<String> keys;
-  final String effect;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    final t = context.text;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 132,
-            child: Wrap(
-              spacing: 4,
-              runSpacing: 4,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                for (final key in keys)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: c.surfaceMuted,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: c.border),
-                    ),
-                    child: Text(key, style: t.key),
-                  ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(effect, style: t.secondary.copyWith(color: c.text)),
-          ),
-        ],
-      ),
     );
   }
 }
