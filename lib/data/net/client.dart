@@ -47,7 +47,9 @@ class DropClient {
     } on TimeoutException {
       throw const DropException('L\'appareil ne répond pas.');
     } on SocketException {
-      throw const DropException('Appareil injoignable. Vérifiez qu\'il est sur le même réseau et que sDrop y est ouvert.');
+      throw const DropException(
+        'Appareil injoignable. Vérifiez qu\'il est sur le même réseau et que sDrop y est ouvert.',
+      );
     } on HttpException {
       throw const DropException('La liaison avec l\'appareil a été coupée.');
     }
@@ -85,11 +87,15 @@ class DropClient {
 
   /// Envoie le contenu d'un fichier d'un envoi accepté. [onProgress] reçoit le nombre
   /// d'octets partis pour ce fichier.
-  Future<void> upload(Peer peer, String session, int index, OutgoingItem item, void Function(int sent) onProgress) async {
+  Future<void> upload(
+    Peer peer,
+    String session,
+    int index,
+    OutgoingItem item,
+    void Function(int sent) onProgress,
+  ) async {
     try {
-      final request = await _http.postUrl(
-        _uri(peer.address, peer.port, '/envoi', {'session': session, 'i': '$index'}),
-      );
+      final request = await _http.postUrl(_uri(peer.address, peer.port, '/envoi', {'session': session, 'i': '$index'}));
       _uploads[session] = request;
       request
         ..contentLength = item.size
@@ -120,7 +126,11 @@ class DropClient {
   Future<void> cancel(Peer peer, String session) async {
     _uploads.remove(session)?.abort();
     try {
-      await _post(_uri(peer.address, peer.port, '/annuler', {'session': session}), const {}, const Duration(seconds: 3));
+      await _post(
+        _uri(peer.address, peer.port, '/annuler', {'session': session}),
+        const {},
+        const Duration(seconds: 3),
+      );
     } on DropException {
       // Destinataire déjà parti.
     }

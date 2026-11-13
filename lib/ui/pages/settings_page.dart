@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../data/net/protocol.dart';
 import '../../data/settings.dart';
 import '../../state/drop_scope.dart';
 import '../pick.dart';
@@ -43,9 +44,11 @@ class _SettingsPageState extends State<SettingsPage> {
       }
     }
 
+    // Le port n'est précisé que s'il a fallu en prendre un autre que celui par défaut.
+    final customPort = controller.serverPort != 0 && controller.serverPort != sdropPort;
     final address = controller.addresses.isEmpty
         ? 'Aucun réseau détecté'
-        : controller.addresses.map((a) => controller.serverPort == 47873 ? a : '$a:${controller.serverPort}').join(', ');
+        : controller.addresses.map((a) => customPort ? '$a:${controller.serverPort}' : a).join(', ');
 
     return AppPage(
       header: const PageHeader(title: 'Réglages'),
@@ -77,7 +80,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 subtitle: 'À saisir sur l\'autre appareil s\'il ne trouve pas celui-ci tout seul.',
                 trailing: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 170),
-                  child: SelectableText(address, textAlign: TextAlign.end, style: t.body.copyWith(color: c.textMuted)),
+                  child: SelectableText(
+                    address,
+                    textAlign: TextAlign.end,
+                    style: t.body.copyWith(color: c.textMuted),
+                  ),
                 ),
               ),
             ],
@@ -93,7 +100,10 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingRow(
                 title: 'Accepter sans demander',
                 subtitle: 'Pour les appareils auxquels vous avez choisi de toujours faire confiance.',
-                trailing: AppSwitch(value: s.autoAccept, onChanged: (v) => set(s.copyWith(autoAccept: v))),
+                trailing: AppSwitch(
+                  value: s.autoAccept,
+                  onChanged: (v) => set(s.copyWith(autoAccept: v)),
+                ),
               ),
               const SizedBox(height: 6),
               Text('Dossier de réception', style: t.body),

@@ -2,6 +2,8 @@
 #include <flutter/flutter_view_controller.h>
 #include <windows.h>
 
+#include <algorithm>
+
 #include "flutter_window.h"
 #include "utils.h"
 
@@ -25,9 +27,24 @@ int APIENTRY wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE prev,
   project.set_dart_entrypoint_arguments(std::move(command_line_arguments));
 
   FlutterWindow window(project);
-  Win32Window::Point origin(10, 10);
-  Win32Window::Size size(1280, 720);
-  if (!window.Create(L"sdrop", origin, size)) {
+
+  // Fenêtre étroite, comme sur le téléphone, calée à droite de l'écran principal et
+  // centrée en hauteur. Les dimensions sont en pixels logiques : Win32Window
+  // applique lui-même l'échelle d'affichage.
+  RECT work = {0, 0, 1280, 720};
+  ::SystemParametersInfo(SPI_GETWORKAREA, 0, &work, 0);
+  const double scale = ::GetDpiForSystem() / 96.0;
+  const int work_width = static_cast<int>((work.right - work.left) / scale);
+  const int work_height = static_cast<int>((work.bottom - work.top) / scale);
+  const int width = (std::min)(420, (std::max)(360, work_width - 20));
+  const int height = (std::min)(760, (std::max)(480, work_height - 40));
+  const int x = static_cast<int>(work.left / scale) +
+                (std::max)(10, work_width - width - 48);
+  const int y = static_cast<int>(work.top / scale) +
+                (std::max)(10, (work_height - height) / 2);
+  Win32Window::Point origin(x, y);
+  Win32Window::Size size(width, height);
+  if (!window.Create(L"sDrop", origin, size)) {
     return EXIT_FAILURE;
   }
   window.SetQuitOnClose(true);

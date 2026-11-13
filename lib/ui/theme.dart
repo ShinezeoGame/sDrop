@@ -123,7 +123,6 @@ class AppText {
   final TextStyle caption;
   final TextStyle button;
 
-
   static final light = AppText._(AppColors.light);
   static final dark = AppText._(AppColors.dark);
 

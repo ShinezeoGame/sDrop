@@ -24,6 +24,10 @@ class PendingRequest {
   bool _always = false;
 
   String get peerName => offer.from.name;
+
+  /// Réponse donnée par l'utilisateur, ou `null` tant qu'il n'a pas répondu.
+  ({bool accepted, bool always})? _answer;
+  ({bool accepted, bool always})? get answer => _answer;
 }
 
 /// Ce qui attend le choix d'un destinataire : fichiers déposés dans la fenêtre, ou
@@ -109,8 +113,7 @@ class DropController extends ChangeNotifier implements DropReceiver {
   final Map<String, DateTime> _lastHello = {};
 
   /// Appareils visibles, par ordre alphabétique.
-  List<Peer> get peers =>
-      _peers.values.toList()..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+  List<Peer> get peers => _peers.values.toList()..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
   final List<PendingRequest> _pending = [];
   List<PendingRequest> get pending => List.unmodifiable(_pending);
@@ -342,7 +345,14 @@ class DropController extends ChangeNotifier implements DropReceiver {
   Future<void> forgetPeer(Peer peer) async {
     _peers.remove(peer.id);
     final entry = '${peer.address.address}:${peer.port}';
-    await updateSettings(_settings.copyWith(manualPeers: [for (final m in _settings.manualPeers) if (m != entry) m]));
+    await updateSettings(
+      _settings.copyWith(
+        manualPeers: [
+          for (final m in _settings.manualPeers)
+            if (m != entry) m,
+        ],
+      ),
+    );
   }
 
   // ── Réception ──
@@ -383,7 +393,10 @@ class DropController extends ChangeNotifier implements DropReceiver {
       token = randomHex();
       await updateSettings(
         _settings.copyWith(
-          trusted: {..._settings.trusted, offer.from.id: TrustedDevice(name: offer.from.name, token: token)},
+          trusted: {
+            ..._settings.trusted,
+            offer.from.id: TrustedDevice(name: offer.from.name, token: token),
+          },
         ),
       );
     }
@@ -393,12 +406,17 @@ class DropController extends ChangeNotifier implements DropReceiver {
 
   /// Accepte une demande ; [always] accepte aussi d'office les prochains envois de cet appareil.
   void accept(PendingRequest request, {bool always = false}) {
-    request._always = always;
-    if (!request._decision.isCompleted) request._decision.complete(true);
+    if (request._decision.isCompleted) return;
+    request
+      .._always = always
+      .._answer = (accepted: true, always: always);
+    request._decision.complete(true);
   }
 
   void refuse(PendingRequest request) {
-    if (!request._decision.isCompleted) request._decision.complete(false);
+    if (request._decision.isCompleted) return;
+    request._answer = (accepted: false, always: false);
+    request._decision.complete(false);
   }
 
   /// Dossier de repli, si « Téléchargements » s'avère inaccessible sur ce téléphone.

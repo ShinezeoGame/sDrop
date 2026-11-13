@@ -19,12 +19,7 @@ class Announcement {
 /// fois en multidiffusion et en diffusion (selon les box et les téléphones, l'un des deux
 /// seulement passe), et écoute les annonces des autres.
 class Discovery {
-  Discovery({
-    required this.self,
-    this.port = sdropPort,
-    this.targets,
-    this.interval = const Duration(seconds: 4),
-  });
+  Discovery({required this.self, this.port = sdropPort, this.targets, this.interval = const Duration(seconds: 4)});
 
   /// Ce que l'appareil annonce (relu à chaque envoi : le nom peut changer).
   final DeviceInfo Function() self;

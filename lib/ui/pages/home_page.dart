@@ -542,71 +542,79 @@ class _TransferTile extends StatelessWidget {
 /// Boîte de saisie d'un texte à envoyer à [peer].
 Future<void> _askText(BuildContext context, Peer peer) async {
   final controller = DropScope.read(context);
-  final field = TextEditingController();
   final text = await showDialog<String>(
     context: context,
     builder: (context) => _InputDialog(
       title: 'Texte pour ${peer.name}',
-      field: field,
       hint: 'Texte, lien, adresse…',
       confirm: 'Envoyer',
       lines: 5,
-      extra: AppButton(
-        label: 'Coller',
-        icon: Icons.content_paste_rounded,
-        compact: true,
-        onPressed: () async {
-          final data = await Clipboard.getData(Clipboard.kTextPlain);
-          if (data?.text != null) field.text = data!.text!;
-        },
-      ),
+      paste: true,
     ),
   );
-  field.dispose();
   if (text != null && text.trim().isNotEmpty) await controller.send(peer, text: text);
 }
 
 /// Boîte de saisie de l'adresse d'un appareil qui n'apparaît pas tout seul.
 Future<void> _askAddress(BuildContext context) async {
   final controller = DropScope.read(context);
-  final field = TextEditingController();
   final address = await showDialog<String>(
     context: context,
-    builder: (context) => _InputDialog(
+    builder: (context) => const _InputDialog(
       title: 'Ajouter un appareil',
-      field: field,
       hint: '192.168.1.20',
       confirm: 'Ajouter',
       help: 'Son adresse est affichée dans les réglages de sDrop, sur l\'autre appareil.',
     ),
   );
-  field.dispose();
   if (address != null && address.trim().isNotEmpty) await controller.addPeerByAddress(address);
 }
 
-class _InputDialog extends StatelessWidget {
+/// Boîte de saisie : renvoie le texte saisi, ou `null` si l'utilisateur annule.
+class _InputDialog extends StatefulWidget {
   const _InputDialog({
     required this.title,
-    required this.field,
     required this.hint,
     required this.confirm,
     this.help,
-    this.extra,
+    this.paste = false,
     this.lines = 1,
   });
 
   final String title;
-  final TextEditingController field;
   final String hint;
   final String confirm;
   final String? help;
-  final Widget? extra;
+
+  /// Propose un bouton « Coller ».
+  final bool paste;
   final int lines;
+
+  @override
+  State<_InputDialog> createState() => _InputDialogState();
+}
+
+class _InputDialogState extends State<_InputDialog> {
+  // Le champ appartient à la boîte : il vit jusqu'à la fin de son animation de fermeture.
+  final _field = TextEditingController();
+
+  @override
+  void dispose() {
+    _field.dispose();
+    super.dispose();
+  }
+
+  Future<void> _paste() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = data?.text;
+    if (text != null && mounted) _field.text = text;
+  }
 
   @override
   Widget build(BuildContext context) {
     final c = context.colors;
     final t = context.text;
+    final lines = widget.lines;
     return Dialog(
       backgroundColor: c.surface,
       surfaceTintColor: Colors.transparent,
@@ -614,36 +622,38 @@ class _InputDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 460),
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.sectionTitle),
-              if (help != null) ...[const SizedBox(height: 6), Text(help!, style: t.secondary)],
+              Text(widget.title, maxLines: 2, overflow: TextOverflow.ellipsis, style: t.sectionTitle),
+              if (widget.help != null) ...[const SizedBox(height: 6), Text(widget.help!, style: t.secondary)],
               const SizedBox(height: 14),
               TextField(
-                controller: field,
+                controller: _field,
                 autofocus: true,
                 style: t.body,
                 minLines: lines,
                 maxLines: lines == 1 ? 1 : 8,
                 onSubmitted: lines == 1 ? (value) => Navigator.of(context).pop(value) : null,
-                decoration: InputDecoration(hintText: hint),
+                decoration: InputDecoration(hintText: widget.hint),
               ),
               const SizedBox(height: 14),
-              Row(
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 8,
+                runSpacing: 8,
                 children: [
-                  ?extra,
-                  const Spacer(),
+                  if (widget.paste)
+                    AppButton(label: 'Coller', icon: Icons.content_paste_rounded, compact: true, onPressed: _paste),
                   AppButton(label: 'Annuler', compact: true, onPressed: () => Navigator.of(context).pop()),
-                  const SizedBox(width: 8),
                   AppButton(
-                    label: confirm,
+                    label: widget.confirm,
                     kind: ButtonKind.primary,
                     compact: true,
-                    onPressed: () => Navigator.of(context).pop(field.text),
+                    onPressed: () => Navigator.of(context).pop(_field.text),
                   ),
                 ],
               ),

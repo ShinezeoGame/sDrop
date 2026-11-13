@@ -91,18 +91,41 @@ void main() {
 
       expect(Offer.fromJson({'de': from}), isNull, reason: 'ni fichier ni texte');
       expect(Offer.fromJson({'de': from, 'texte': ''}), isNull);
-      expect(Offer.fromJson({'de': from, 'elements': [{'nom': 'a', 'taille': -1}]}), isNull);
-      expect(Offer.fromJson({'de': from, 'elements': [{'nom': '', 'taille': 1}]}), isNull);
+      expect(
+        Offer.fromJson({
+          'de': from,
+          'elements': [
+            {'nom': 'a', 'taille': -1},
+          ],
+        }),
+        isNull,
+      );
+      expect(
+        Offer.fromJson({
+          'de': from,
+          'elements': [
+            {'nom': '', 'taille': 1},
+          ],
+        }),
+        isNull,
+      );
       expect(Offer.fromJson({'de': from, 'texte': 'x' * (Limits.textLength + 1)}), isNull);
       expect(
-        Offer.fromJson({'de': from, 'elements': List.filled(Limits.items + 1, {'nom': 'a', 'taille': 1})}),
+        Offer.fromJson({
+          'de': from,
+          'elements': List.filled(Limits.items + 1, {'nom': 'a', 'taille': 1}),
+        }),
         isNull,
       );
     });
 
     test('l\'aller-retour d\'une demande conserve son contenu', () {
       const info = DeviceInfo(id: 'abc', name: 'PC', kind: DeviceKind.computer, port: 5000);
-      const sent = Offer(from: info, token: 'jeton', items: [OfferItem(name: 'a.txt', size: 3)]);
+      const sent = Offer(
+        from: info,
+        token: 'jeton',
+        items: [OfferItem(name: 'a.txt', size: 3)],
+      );
       final read = Offer.fromJson(sent.toJson())!;
       expect((read.from.name, read.token, read.items.single.name, read.items.single.size), ('PC', 'jeton', 'a.txt', 3));
     });

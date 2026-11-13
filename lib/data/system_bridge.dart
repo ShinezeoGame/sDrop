@@ -17,7 +17,12 @@ class SharedContent {
     final files = map['fichiers'];
     final text = map['texte'];
     return SharedContent(
-      files: files is List ? [for (final f in files) if (f is String) f] : const [],
+      files: files is List
+          ? [
+              for (final f in files)
+                if (f is String) f,
+            ]
+          : const [],
       text: text is String ? text : null,
     );
   }

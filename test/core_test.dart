@@ -76,7 +76,11 @@ void main() {
       expect(await pc.controller.addPeerByAddress('pas une adresse'), isFalse);
       expect(pc.controller.notice!.error, isTrue);
       expect(await pc.controller.addPeerByAddress('127.0.0.1:1'), isFalse, reason: 'personne à cette adresse');
-      expect(await pc.controller.addPeerByAddress('127.0.0.1:${pc.controller.serverPort}'), isFalse, reason: 'soi-même');
+      expect(
+        await pc.controller.addPeerByAddress('127.0.0.1:${pc.controller.serverPort}'),
+        isFalse,
+        reason: 'soi-même',
+      );
 
       expect(await pc.controller.addPeerByAddress('127.0.0.1:${phone.controller.serverPort}'), isTrue);
       expect(pc.peer('Galaxy S25').manual, isTrue);
@@ -128,7 +132,12 @@ void main() {
 
     test('refusé : rien n\'est écrit, l\'expéditeur est prévenu', () async {
       await startBoth();
-      final sending = phone.controller.send(phone.peer('PC du bureau'), items: [memoryItem('a.txt', [1, 2, 3])]);
+      final sending = phone.controller.send(
+        phone.peer('PC du bureau'),
+        items: [
+          memoryItem('a.txt', [1, 2, 3]),
+        ],
+      );
       await until(() => pc.controller.pending.isNotEmpty);
       pc.controller.refuse(pc.controller.pending.single);
       expect((await sending).state, TransferState.refused);
@@ -139,7 +148,12 @@ void main() {
 
     test('sans réponse, la demande est refusée d\'elle-même', () async {
       await startBoth(decisionTimeout: const Duration(milliseconds: 400));
-      final sent = await phone.controller.send(phone.peer('PC du bureau'), items: [memoryItem('a.txt', [1])]);
+      final sent = await phone.controller.send(
+        phone.peer('PC du bureau'),
+        items: [
+          memoryItem('a.txt', [1]),
+        ],
+      );
       expect(sent.state, TransferState.refused);
       expect(pc.controller.pending, isEmpty);
     });
@@ -149,7 +163,10 @@ void main() {
       File(p.join(pc.directory.path, 'rapport.txt')).writeAsStringSync('ancien');
       final sending = phone.controller.send(
         phone.peer('PC du bureau'),
-        items: [memoryItem('../../../rapport.txt', utf8.encode('nouveau')), memoryItem(r'..\secret.txt', [9])],
+        items: [
+          memoryItem('../../../rapport.txt', utf8.encode('nouveau')),
+          memoryItem(r'..\secret.txt', [9]),
+        ],
       );
       await until(() => pc.controller.pending.isNotEmpty);
       pc.controller.accept(pc.controller.pending.single);
@@ -191,7 +208,12 @@ void main() {
       await startBoth();
       final target = phone.peer('PC du bureau');
       await pc.controller.shutdown();
-      final sent = await phone.controller.send(target, items: [memoryItem('a.txt', [1])]);
+      final sent = await phone.controller.send(
+        target,
+        items: [
+          memoryItem('a.txt', [1]),
+        ],
+      );
       expect(sent.state, TransferState.failed);
       expect(sent.error, contains('injoignable'));
     });
@@ -216,7 +238,12 @@ void main() {
     test('« toujours accepter » : les envois suivants passent sans demander', () async {
       await startBoth();
       final target = phone.peer('PC du bureau');
-      final first = phone.controller.send(target, items: [memoryItem('1.txt', [1])]);
+      final first = phone.controller.send(
+        target,
+        items: [
+          memoryItem('1.txt', [1]),
+        ],
+      );
       await until(() => pc.controller.pending.isNotEmpty);
       pc.controller.accept(pc.controller.pending.single, always: true);
       expect((await first).state, TransferState.done);
@@ -224,7 +251,12 @@ void main() {
       expect(phone.controller.settings.tokens['id-PC du bureau'], isNotEmpty);
 
       // Deuxième envoi : accepté d'office.
-      final second = await phone.controller.send(target, items: [memoryItem('2.txt', [2])]);
+      final second = await phone.controller.send(
+        target,
+        items: [
+          memoryItem('2.txt', [2]),
+        ],
+      );
       expect(second.state, TransferState.done);
       expect(pc.controller.pending, isEmpty);
       await until(() => File(p.join(pc.directory.path, '2.txt')).existsSync());
