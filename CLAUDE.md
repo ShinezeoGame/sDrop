@@ -41,8 +41,7 @@
   (`MainActivity.kt`, écriture dans `Download/sDrop`, menu « Partager ») n'est vérifiée que
   par la compilation.
 - Logo : sDrop, sDash et sPhone forment la marque « s » de l'utilisateur. Règles : même
-  carré arrondi orange `#C2571A`, même trait clair à bouts ronds, et **le point ambre
-  toujours au même endroit et de la même taille** (en haut à droite). Seul le dessin
+  carré arrondi orange `#C2571A`, même trait clair à bouts ronds, le dessin de chaque application est **centré** dans le carré, et **le point ambre est posé ensuite dans l'angle en haut à droite**, toujours au même endroit et de la même taille (l'utilisateur a demandé de ne pas décaler le dessin pour faire de la place au point). Seul le dessin
   change : flèche qui tombe dans un bac pour sDrop, maison pour sDash, téléphone pour
   sPhone ; le « S » seul est le signe de la marque.
   Source : `tools/logo/generer_logo.py` (identique dans les trois dépôts, à garder
