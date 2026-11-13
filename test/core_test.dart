@@ -302,26 +302,36 @@ void main() {
   });
 
   group('serveur de réception', () {
+    /// Code de réponse et corps ; code -1 si le serveur a coupé la liaison avant de répondre.
     Future<(int, String)> post(int port, String path, Object body) async {
       final client = HttpClient();
-      final request = await client.postUrl(Uri.parse('http://127.0.0.1:$port$path'));
-      if (body is List<int>) {
-        request.add(body);
-      } else {
-        request.write(jsonEncode(body));
+      try {
+        final request = await client.postUrl(Uri.parse('http://127.0.0.1:$port$path'));
+        if (body is List<int>) {
+          request.add(body);
+        } else {
+          request.write(jsonEncode(body));
+        }
+        final response = await request.close();
+        final text = await response.transform(utf8.decoder).join();
+        return (response.statusCode, text);
+      } on IOException {
+        return (-1, '');
+      } finally {
+        client.close(force: true);
       }
-      final response = await request.close();
-      final text = await response.transform(utf8.decoder).join();
-      client.close();
-      return (response.statusCode, text);
     }
+
+    // Un corps refusé sans être lu jusqu'au bout : Linux laisse passer la réponse 400, Windows
+    // coupe la liaison. Dans les deux cas, la demande est rejetée.
+    final rejectedUnread = anyOf(400, -1);
 
     test('un dépôt sans demande acceptée est rejeté', () async {
       await startBoth();
       final port = pc.controller.serverPort;
       expect((await post(port, '/envoi?session=inconnue&i=0', [1, 2, 3])).$1, 404);
       expect((await post(port, '/demande', {'n\'importe': 'quoi'})).$1, 400);
-      expect((await post(port, '/demande', 'x' * 600000)).$1, 400, reason: 'demande trop volumineuse');
+      expect((await post(port, '/demande', 'x' * 600000)).$1, rejectedUnread, reason: 'demande trop volumineuse');
       expect((await post(port, '/inconnu', const {})).$1, 404);
       expect(pc.controller.pending, isEmpty);
       expect(pc.directory.listSync(), isEmpty);
@@ -342,7 +352,7 @@ void main() {
       expect(status, 200);
       final session = (jsonDecode(body) as Map)['session'] as String;
 
-      expect((await post(port, '/envoi?session=$session&i=0', List.filled(5000, 1))).$1, 400);
+      expect((await post(port, '/envoi?session=$session&i=0', List.filled(5000, 1))).$1, rejectedUnread);
       expect((await post(port, '/envoi?session=$session&i=7', [1, 2, 3, 4])).$1, 400);
       expect(pc.directory.listSync(), isEmpty);
     });

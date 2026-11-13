@@ -51,7 +51,11 @@ class DropClient {
         'Appareil injoignable. Vérifiez qu\'il est sur le même réseau et que sDrop y est ouvert.',
       );
     } on HttpException {
-      throw const DropException('La liaison avec l\'appareil a été coupée.');
+      // Liaison coupée avant toute réponse : sous Windows, c'est aussi ce qui arrive quand
+      // sDrop vient d'être fermé sur l'autre appareil.
+      throw const DropException(
+        'Appareil injoignable : la liaison a été coupée. Vérifiez que sDrop y est toujours ouvert.',
+      );
     }
   }
 
