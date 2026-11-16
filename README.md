@@ -1,15 +1,19 @@
 <p align="center"><img src="docs/logo/sdrop-logo-1024.png" width="148" alt="Logo sDrop : une flèche qui tombe dans un bac et un point ambre, sur fond orange"></p>
 
-# sDrop
+<h1 align="center">sDrop</h1>
 
-Envoyer un fichier, des photos ou un texte du téléphone au PC, et du PC au téléphone, en
-un geste. Les appareils se trouvent tout seuls sur le Wi-Fi de la maison : pas de câble,
-pas de compte, rien ne passe par Internet.
+<p align="center"><b>Du téléphone au PC, et du PC au téléphone. En un geste, sans câble.</b></p>
 
 <p align="center">
   <a href="https://github.com/ShinezeoGame/sDrop/releases/latest/download/sdrop.apk"><img alt="Télécharger pour Android (APK)" src="https://img.shields.io/badge/T%C3%A9l%C3%A9charger-pour%20Android-F0A257?style=for-the-badge&logo=android&logoColor=white&labelColor=3B2516"></a>
   <a href="https://github.com/ShinezeoGame/sDrop/releases/latest/download/sdrop-setup.exe"><img alt="Télécharger pour Windows (installateur)" src="https://img.shields.io/badge/T%C3%A9l%C3%A9charger-pour%20Windows-F0A257?style=for-the-badge&logo=windows&logoColor=white&labelColor=3B2516"></a>
+  <a href="https://github.com/ShinezeoGame/sDrop/releases/latest"><img alt="Version" src="https://img.shields.io/github/v/release/ShinezeoGame/sDrop?style=for-the-badge&label=version&color=C2692B&labelColor=3B2516"></a>
 </p>
+
+Les photos de la journée à mettre sur le PC, un document à garder sur le téléphone, un lien
+à ouvrir sur le grand écran : avec sDrop, vous choisissez l'appareil, vous choisissez quoi
+envoyer, et c'est arrivé. Vos appareils se trouvent tout seuls sur le Wi-Fi de la maison.
+Pas de câble, pas de compte, rien ne passe par Internet.
 
 <p align="center">
   <img src="docs/captures/accueil.png" width="270" alt="Accueil : deux appareils visibles et deux transferts">
@@ -17,107 +21,88 @@ pas de compte, rien ne passe par Internet.
   <img src="docs/captures/reglages.png" width="270" alt="Page Réglages">
 </p>
 
-## Fonctionnalités
+## Pourquoi sDrop
 
-- **La même application sur le téléphone (Android) et sur le PC (Windows)** : chacune voit
-  l'autre dès qu'elles sont ouvertes sur le même réseau.
-- **Fichiers, photos, texte** : choisissez l'appareil, puis ce que vous envoyez. Un lien ou
-  un texte reçu se copie d'un clic.
-- **Depuis n'importe quelle application du téléphone** : sDrop apparaît dans le menu
-  « Partager » d'Android.
-- **Glisser-déposer sur le PC** : déposez des fichiers dans la fenêtre, puis cliquez sur
-  l'appareil destinataire.
-- **Rien n'arrive sans votre accord** : chaque envoi est à accepter ou refuser. Cochez
-  « Toujours accepter cet appareil » pour vos propres appareils, et les envois suivants
-  arrivent tout seuls.
-- **Suivi** : avancement en direct, annulation en cours de route, liste des derniers transferts.
-- **Thème clair ou sombre**, dans le même style que [sDash](https://github.com/ShinezeoGame/sDash)
-  et [sPhone](https://github.com/ShinezeoGame/sPhone).
+- **Fini le câble et les envois à soi-même.** Plus besoin de vous écrire un e-mail ou un
+  message pour récupérer un fichier : il va directement d'un appareil à l'autre.
+- **La même appli des deux côtés.** Sur le téléphone Android comme sur le PC Windows, sDrop
+  a la même allure et s'utilise de la même façon.
+- **Vous gardez la main.** Rien n'arrive sur un appareil sans votre accord, et rien ne quitte
+  votre réseau.
 
-Les fichiers reçus sont rangés dans `Téléchargements\sDrop` (sur Android : `Download/sDrop`).
-Un fichier du même nom n'est jamais écrasé.
+## Ce que fait sDrop
 
-## Installation
+### 📁 Fichiers et photos
+Choisissez un ou plusieurs fichiers, ou piochez dans vos photos, puis envoyez-les à
+l'appareil de votre choix. Ils arrivent dans le dossier Téléchargements, rangés dans
+`sDrop`, et un fichier du même nom n'est jamais écrasé.
 
-- **Téléphone** : téléchargez `sdrop.apk`, ouvrez-le et autorisez l'installation
-  d'applications de sources inconnues si Android le demande. Android 11 au minimum.
-- **PC** : téléchargez `sdrop-setup.exe` et lancez-le. L'application n'est pas signée : si
-  Windows affiche « Windows a protégé votre ordinateur », cliquez sur « Informations
-  complémentaires » puis « Exécuter quand même ». **Au premier lancement, autorisez sDrop
-  sur les réseaux privés** quand le pare-feu Windows le demande : sans cela, le PC ne peut
-  ni être vu ni recevoir.
+### 💬 Textes et liens
+Envoyez un texte ou un lien d'un appareil à l'autre. À l'arrivée, un clic le copie, prêt à
+être collé où vous voulez.
 
-Les compilations de chaque branche sont disponibles en artefacts **sdrop-android** et
-**sdrop-windows** dans l'onglet **Actions**.
+### 📤 Depuis n'importe quelle appli du téléphone
+sDrop apparaît dans le menu « Partager » d'Android : une photo dans la galerie, un document,
+une page web… partagez-les vers sDrop et choisissez le PC.
 
-## Utilisation
+### 🖱️ Glisser-déposer sur le PC
+Déposez des fichiers dans la fenêtre de sDrop, cliquez sur le téléphone : c'est parti.
 
-1. Ouvrez sDrop sur les deux appareils, connectés au même Wi-Fi. Ils apparaissent l'un
-   chez l'autre en quelques secondes.
-2. Sur celui qui envoie, choisissez **Fichiers**, **Photos** ou **Texte** sous le nom du
-   destinataire.
-3. Sur celui qui reçoit, **Acceptez**.
+### ✋ Rien n'arrive sans votre accord
+Chaque envoi s'affiche d'abord comme une demande, à accepter ou refuser. Pour vos propres
+appareils, cochez « Toujours accepter cet appareil » : les envois suivants arrivent tout
+seuls, et vous pouvez retirer cette confiance à tout moment dans les réglages.
 
-L'application doit être ouverte sur l'appareil qui reçoit.
+### 📊 Suivi en direct
+L'avancement s'affiche pendant l'envoi, un transfert peut être annulé en cours de route, et
+la liste des derniers transferts reste sous la main.
 
-| Souci | Solution |
-| --- | --- |
-| Les appareils ne se voient pas | Vérifiez qu'ils sont sur le même Wi-Fi (pas le réseau « invités » de la box). Sur le PC, vérifiez que sDrop est autorisé dans le pare-feu pour les réseaux privés. |
-| Toujours rien | **Ajouter par adresse** : saisissez sur un appareil l'adresse affichée dans les réglages de sDrop de l'autre. |
-| Les fichiers reçus sont introuvables sur le téléphone | Ils sont dans l'application Mes fichiers → Téléchargements → sDrop. |
+### 📶 Vos appareils se trouvent tout seuls
+Ouvrez sDrop sur le téléphone et le PC connectés au même Wi-Fi : ils apparaissent l'un chez
+l'autre, sans rien configurer. Si votre réseau bloque cette découverte, vous pouvez ajouter
+un appareil par son adresse.
 
-## Confidentialité et sécurité
+### 🌗 Clair ou sombre
+Un thème clair et un thème sombre, au choix ou selon le système.
 
-Les envois vont directement d'un appareil à l'autre sur le réseau local. Ils ne sont
-**pas chiffrés** : quelqu'un qui écouterait votre réseau pourrait les lire. N'utilisez
-sDrop que sur un réseau de confiance, comme celui de la maison, pas sur un Wi-Fi public.
+## Prise en main
 
-Un appareil du réseau ne peut rien déposer chez vous sans que vous l'acceptiez. La
-confiance accordée à un appareil repose sur un jeton secret qui lui est remis, pas sur son
-nom ; vous la retirez dans les réglages.
+1. **Installez** sDrop sur le téléphone et sur le PC avec les boutons en haut de cette page.
+2. **Ouvrez-le** des deux côtés, sur le même Wi-Fi : chaque appareil voit l'autre.
+3. **Envoyez** : sous le nom du destinataire, choisissez Fichiers, Photos ou Texte, puis
+   acceptez la demande sur l'appareil qui reçoit.
 
-## Comment ça marche
+Le [guide d'utilisation](docs/GUIDE.md) détaille l'installation, le pare-feu Windows,
+l'ajout par adresse et les solutions aux soucis courants.
 
-sDrop est une application [Flutter](https://flutter.dev), avec le même code pour Android
-et Windows.
+## Questions fréquentes
 
-- **Découverte** : chaque appareil annonce son nom toutes les quelques secondes par un
-  petit message UDP (multidiffusion et diffusion), et se signale directement à ceux qu'il
-  entend. Il suffit donc que les annonces passent dans un sens.
-- **Envoi** : l'expéditeur demande l'accord du destinataire (HTTP sur le réseau local,
-  port 47873), puis lui transmet les fichiers un par un.
+**Faut-il un compte ou un abonnement ?** Non. sDrop est gratuit, sans compte, sans
+publicité.
 
-## Développement
+**Mes fichiers passent-ils par Internet ?** Non. Ils vont directement d'un appareil à
+l'autre, sur votre réseau local. Aucun serveur, aucun nuage.
 
-Flutter 3.47. Pour Windows, Visual Studio avec la charge « Développement Desktop en C++ » ;
-pour Android, le SDK Android.
+**Avec quels appareils ?** Les téléphones et tablettes Android 11 ou plus récents, et les PC
+sous Windows. sDrop a été pensé autour d'un Samsung Galaxy S25.
 
-```powershell
-flutter run -d windows
-```
+**Est-ce sécurisé ?** Personne ne peut déposer un fichier chez vous sans votre accord, et la
+confiance accordée à un appareil repose sur un jeton secret, pas sur son nom. En revanche,
+les envois ne sont **pas chiffrés** : quelqu'un qui écouterait votre réseau pourrait les
+lire. Utilisez sDrop sur un réseau de confiance, comme celui de la maison, pas sur un Wi-Fi
+public.
 
-- Vérifications : `flutter analyze` et `flutter test`. Les tests font dialoguer deux
-  appareils sDrop réels sur la même machine (découverte, envoi, refus, confiance,
-  annulation) : ni téléphone ni second ordinateur nécessaires.
-- `.github/workflows/build.yml` teste, compile l'APK et l'application Windows (qu'il lance
-  et interroge pour de bon), et publie la version à chaque envoi sur `main`.
-- Clé de signature Android (facultative, pour que les mises à jour s'installent par-dessus
-  l'ancienne version) : secrets `ANDROID_KEYSTORE_BASE64` et `ANDROID_KEYSTORE_PASSWORD`
-  du dépôt, comme pour sDash.
+## La famille sPack
 
-## Logo
+sDrop fait partie de **sPack**, une famille d'applications pratiques pour la maison, toutes
+dans le même style.
 
-sDrop partage sa marque avec sDash et sPhone : le même carré orange, le même trait clair,
-et le même point ambre, toujours au même endroit. Seul le dessin change — ici une flèche
-qui tombe dans un bac.
+| | | |
+| :---: | :---: | :---: |
+| <a href="https://github.com/ShinezeoGame/sDash"><img src="docs/logo/famille/sdash.png" width="72" alt="Logo sDash"></a> | <a href="https://github.com/ShinezeoGame/sPhone"><img src="docs/logo/famille/sphone.png" width="72" alt="Logo sPhone"></a> | <img src="docs/logo/famille/sdrop.png" width="72" alt="Logo sDrop"> |
+| **[sDash](https://github.com/ShinezeoGame/sDash)**<br>Toute la maison sur une tablette | **[sPhone](https://github.com/ShinezeoGame/sPhone)**<br>L'écran du téléphone sur le PC | **sDrop**<br>Fichiers et textes entre téléphone et PC |
 
-![La marque « s » : le S, sDash, sPhone et sDrop](docs/logo/presentation.jpg)
+---
 
-Les sources vectorielles sont dans `docs/logo/` ;
-`tools/logo/generer_logo.py` les produit, `tools/logo/exporter.py` en tire les PNG et les
-icônes Windows et Android.
-
-## Licences
-
-Police [Outfit](https://github.com/Outfitio/Outfit-Fonts) sous licence SIL Open Font License 1.1
-(`assets/fonts/OFL.txt`).
+<sub>Fonctionnement, développement et logo : voir [docs/DEVELOPPEMENT.md](docs/DEVELOPPEMENT.md).
+Police [Outfit](https://github.com/Outfitio/Outfit-Fonts) sous licence SIL Open Font License 1.1.</sub>
