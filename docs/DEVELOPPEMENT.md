@@ -30,7 +30,8 @@ flutter run -d windows
 - Captures de la documentation : `SDROP_CAPTURES=1 flutter test test/captures_test.dart`.
 - `.github/workflows/build.yml` teste, compile l'APK et l'application Windows (qu'il lance
   et interroge pour de bon), et publie la version à chaque envoi sur `main` ou à la demande
-  (bouton « Run workflow », case « Publier »).
+  (bouton « Run workflow », case « Publier »). Un changement qui ne touche que la
+  documentation (`.md`, `docs/`) ne déclenche ni compilation ni publication.
 - Clé de signature Android (facultative, pour que les mises à jour s'installent par-dessus
   l'ancienne version) : secrets `ANDROID_KEYSTORE_BASE64` et `ANDROID_KEYSTORE_PASSWORD`
   du dépôt, comme pour sDash.

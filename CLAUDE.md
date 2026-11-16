@@ -32,6 +32,11 @@
   lance deux appareils réels sur des ports locaux (`test/support/harness.dart`) ;
   `test/app_test.dart` parcourt l'interface à trois tailles de fenêtre.
 - Formatage : `dart format -l 120 lib test`.
+- **Publication automatique (demande de l'utilisateur)** : dès qu'un travail est fini et que
+  les vérifications passent, l'enregistrer, l'envoyer sur la branche de travail puis sur
+  `main` (`git push origin HEAD:main`, en avance rapide), sans demander. Chaque envoi sur
+  `main` publie une Release, sauf si seuls des `.md` ou `docs/` changent (`paths-ignore` de
+  la CI). Vérifier ensuite que la compilation a réussi et que la Release a ses trois fichiers.
 - Captures de la documentation : `SDROP_CAPTURES=1 flutter test test/captures_test.dart`.
 - La CI (`.github/workflows/build.yml`) teste, compile l'APK (`sdrop-android`) et
   l'application Windows (`sdrop-windows` : installateur Inno Setup `tools/installer/sdrop.iss`

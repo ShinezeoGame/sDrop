@@ -1,9 +1,13 @@
 name: Construire sDrop
 
 on:
+  # Un changement qui ne touche que la documentation ne recompile rien et ne publie pas
+  # de version (l'application serait identique à la précédente).
   push:
     branches: [main, 'claude/**']
+    paths-ignore: ['**.md', 'docs/**']
   pull_request:
+    paths-ignore: ['**.md', 'docs/**']
   workflow_dispatch:
     inputs:
       publier:
