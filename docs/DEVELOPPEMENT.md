@@ -38,17 +38,20 @@ flutter run -d windows
 
 ## Logo
 
-sDrop partage sa marque avec sDash et sPhone : le même carré orange, le même trait clair,
-et le même point ambre, toujours au même endroit. Seul le dessin change — ici une flèche
-qui tombe dans un bac.
+sDrop partage sa marque avec les autres applications de la famille sPack (sDash, sPhone,
+sPing, sWatt, sCam, sBackup) : le même carré orange, le même trait clair, et le même point
+ambre, toujours au même endroit. Seul le dessin change — ici une flèche qui tombe dans un
+bac.
 
-![La marque « s » : le S, sDash, sPhone et sDrop](logo/presentation.jpg)
+![La marque sPack : le S et les logos de sDash, sPhone, sDrop, sPing, sWatt, sCam et sBackup](logo/presentation.jpg)
 
 Les sources vectorielles sont dans `docs/logo/` ;
 `tools/logo/generer_logo.py` les produit, `tools/logo/exporter.py` en tire les PNG et les
-icônes Windows et Android. Les icônes de la famille sPack (`docs/logo/famille/`) sont
-produites par le même générateur (`generer_logo.py assets/fonts <dossier> sdash|sphone|sdrop`),
-puis rendues en PNG 192 × 192.
+icônes Windows et Android. `generer_logo.py` est identique dans tous les dépôts de sPack,
+seule `APPLI_DU_DEPOT` diffère : le modifier dans l'un, c'est le recopier dans les autres.
+Les icônes de la famille (`docs/logo/famille/`) sont produites par le même générateur
+(`generer_logo.py assets/fonts <dossier> sdash|sphone|sdrop|sping|swatt|scam|sbackup`), puis
+rendues en PNG 192 × 192.
 
 ## Licences
 

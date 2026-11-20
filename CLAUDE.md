@@ -48,8 +48,9 @@
 - Logo : sDrop, sDash et sPhone forment la marque « s » de l'utilisateur. Règles : même
   carré arrondi orange `#C2571A`, même trait clair à bouts ronds, le dessin de chaque application est **centré** dans le carré, et **le point ambre est posé ensuite dans l'angle en haut à droite**, toujours au même endroit et de la même taille (l'utilisateur a demandé de ne pas décaler le dessin pour faire de la place au point). Seul le dessin
   change : flèche qui tombe dans un bac pour sDrop, maison pour sDash, téléphone pour
-  sPhone ; le « S » seul est le signe de la marque.
-  Source : `tools/logo/generer_logo.py` (identique dans les trois dépôts, à garder
-  synchronisé) → `docs/logo/*.svg`, puis `tools/logo/exporter.py` → PNG, icône Windows et
+  sPhone, une cloche pour sPing, un éclair pour sWatt, une caméra pour sCam, un disque pour
+  sBackup ; le « S » seul est le signe de la marque (famille **sPack**).
+  Source : `tools/logo/generer_logo.py` (identique dans tous les dépôts de sPack, seule
+  `APPLI_DU_DEPOT` diffère ; le recopier dans les autres après chaque modification) → `docs/logo/*.svg`, puis `tools/logo/exporter.py` → PNG, icône Windows et
   icônes Android. Le fond de l'icône adaptative Android est la couleur
   `sdrop_icon_background` (`values/colors.xml`).
